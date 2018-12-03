@@ -10,10 +10,10 @@
 
         <v-spacer></v-spacer>
 
+
+
+        <v-btn flat v-bind:to="{ name: 'sign-in' }">Sign In</v-btn>
         <!--
-
-        <v-btn flat v-bind:to="{ name: 'sign-up' }">Sign Up</v-btn>
-
         <v-btn flat v-bind:to="{name: 'reset-password' } ">Reset Password</v-btn>
 
         <v-btn flat v-bind:to="{ name: 'about-us' }">About Us</v-btn>
