@@ -6,9 +6,9 @@ const knex = require('knex')({
     client: 'pg',
     connection: {
         host: "faraday.cse.taylor.edu",
-        database: "lily_pratico",
-        user: "lily_pratico",
-        password: "velaruve"
+        database: "sarah_wenger",
+        user: "sarah_wenger",
+        password: "bayinore"
     }
 });
 
@@ -25,16 +25,16 @@ const server = Hapi.server({
     port: 3000
 });
 
-Company = require('./Company');
-Employee = require('./Employee');
+Team = require('./Team');
+Member = require('./Member');
 
 server.route([
     //////////////// Create ////////////////
     {
         method: 'POST',
-        path: '/companies',
+        path: '/Teams',
         config: {
-            description: 'Create company',
+            description: 'Create Team',
             validate: {
                 payload: {
                     name: Joi.string().min(1).required(),
@@ -44,49 +44,49 @@ server.route([
             }
         },
         handler: async (request, h) => {
-            let company = await Company.query().insert(request.payload);
-            return company;
+            let Team = await Team.query().insert(request.payload);
+            return Team;
         }
     },
 
     //////////////// Retrieve ////////////////
     {
         method: 'GET',
-        path: '/companies',
+        path: '/Teams',
         config: {
-            description: 'Retrieve all companies'
+            description: 'Retrieve all Teams'
         },
         handler: async (request, h) => {
-            return await Company.query();
+            return await Team.query();
         }
     },
     {
         method: 'GET',
-        path: '/companies/{company_id}',
+        path: '/Teams/{Team_id}',
         config: {
-            description: 'Retrieve one company',
+            description: 'Retrieve one Team',
             validate: {
                 params: {
-                    company_id: Joi.number().integer().min(0)
+                    Team_id: Joi.number().integer().min(0)
                 }
             }
         },
         handler: async (request, h) => {
-            return await Company.query()
-                .where('id', request.params.company_id)
-                .eager('employees');
+            return await Team.query()
+                .where('id', request.params.Team_id)
+                .eager('Members');
         }
     },
 
     //////////////// Update ////////////////
-    {
+    /*{
         method: 'PUT',
-        path: '/companies/{company_id}',
+        path: '/Teams/{Team_id}',
         config: {
-            description: 'Replace a company',
+            description: 'Replace a Team',
             validate: {
                 params: {
-                    company_id: Joi.number().integer().min(0)
+                    Team_id: Joi.number().integer().min(0)
                 },
                 payload: {
                     name: Joi.string().min(1).required(),
@@ -96,20 +96,20 @@ server.route([
             }
         },
         handler: async (request, h) => {
-            let rowsUpdated = await Company.query()
+            let rowsUpdated = await Team.query()
                 .update(request.payload)
-                .where('id', request.params.company_id);
+                .where('id', request.params.Team_id);
             return {updated: rowsUpdated};
         }
     },
     {
         method: 'PATCH',
-        path: '/companies/{company_id}',
+        path: '/Teams/{Team_id}',
         config: {
-            description: 'Update a company',
+            description: 'Update a Team',
             validate: {
                 params: {
-                    company_id: Joi.number().integer().min(0)
+                    Team_id: Joi.number().integer().min(0)
                 },
                 payload: {
                     name: Joi.string().min(1),
@@ -119,9 +119,9 @@ server.route([
             }
         },
         handler: async (request, h) => {
-            let rowsUpdated = await Company.query()
+            let rowsUpdated = await Team.query()
                 .update(request.payload)
-                .where('id', request.params.company_id);
+                .where('id', request.params.Team_id);
             return {updated: rowsUpdated};
         }
     },
@@ -129,26 +129,26 @@ server.route([
     //////////////// Delete ////////////////
     {
         method: 'DELETE',
-        path: '/companies/{company_id}',
+        path: '/Teams/{Team_id}',
         config: {
-            description: 'Delete a company',
+            description: 'Delete a Team',
             validate: {
                 params: {
-                    company_id: Joi.number().integer().min(0)
+                    Team_id: Joi.number().integer().min(0)
                 }
             }
         },
         handler: async (request, h) => {
-            let rowsDeleted = await Company.query()
+            let rowsDeleted = await Team.query()
                 .delete()
-                .where('id', request.params.company_id);
+                .where('id', request.params.Team_id);
             if (rowsDeleted == 1) {
                 return {deleted: rowsDeleted};
             } else {
                 return Boom.notFound(`Query returned ${rowsDeleted} rows`);
             }
         }
-    }
+    }*/
 ]);
 
 // Catch promises lacking a .catch.

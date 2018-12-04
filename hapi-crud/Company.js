@@ -1,21 +1,21 @@
 const { Model } = require('objection');
 
-class Company extends Model {
+class Team extends Model {
   static get tableName() {
-	return 'company';
+	return 'Team';
   }
   static get relationMappings() {
 	return {
-	  employees: {
+	  Members: {
 		relation: Model.HasManyRelation,
-		modelClass: require('./Employee'),
+		modelClass: require('./Member'),
 		join: {
-		  from: 'company.id',
-		  to: 'employee.employer_id'
+		  from: 'Team.id',
+		  to: 'Member.employer_id'
 		}
 	  }
 	};
   }
 }
 
-module.exports = Company;
+module.exports = Team;
