@@ -25,6 +25,169 @@ const server = Hapi.server({
     port: 3000
 });
 
+async function init() {
+    // Show routes at startup.
+    await server.register(require("blipp"));
+
+    // Output logging information.
+    await server.register({
+        plugin: require("hapi-pino"),
+        options: {
+            prettyPrint: true
+        }
+    });
+
+    // Configure static file service.
+    await server.register(require("inert"));
+
+    // Configure routes.
+    server.route([
+        //WHAT THE DATABASE DOES WHEN SIGNING IN
+        {
+            method: "POST",
+            path: "/api/members",
+            config: {
+                description: "Sign in as a member",
+                validate: {
+                    payload: {
+
+                        email: Joi.string()
+                            .email()
+                            .required(),
+                        password: Joi.string().required()
+                    }
+                }
+            },
+            handler: async (request, h) => {
+                let resultSet = await knex("members")
+                    .select()
+                    .where("email", request.payload.email);
+
+                if (resultSet.length > 0) {
+                    return {
+                        ok: false,
+                        msge: `The team '${request.payload.email}' is already in use`
+                    };
+                }
+
+                let result = await knex("members").insert({
+
+                    email: request.payload.email,
+                    password: request.payload.password
+                });
+
+                if (result.rowCount === 1) {
+                    return {
+                        ok: true,
+                        msge: `Signed in '${request.payload.email}'`
+                    };
+                } else {
+                    return {
+                        ok: false,
+                        msge: `Couldn't add '${
+                            request.payload.email
+                            }' to the database`
+                    };
+                }
+            }
+        },
+        {
+            method: "POST",
+            path: "/api/reset-password",
+            config: {
+                description: "Reset your password",
+                validate: {
+                    payload: {
+                        email: Joi.string().email().required(),
+                        original_password: Joi.string().required(),
+                        new_password: Joi.string().required(),
+                        validate_password: Joi.string().required()
+                    }
+                }
+            },
+            handler: async (request, h) => {
+                if (request.payload.new_password !== request.payload.validate_password){
+                    return{
+                        ok: false,
+                        msge: `Passwords do not match!`
+                    };
+                }
+
+                let emailCheck = await knex("teams").select().where("email", request.payload.email)
+                let passwordCheck = await knex("teams").select("password").where("email", request.payload.email)
+
+                if (emailCheck.length === 1){
+                    if (passwordCheck === request.payload.original_password){
+                        let result = await knex("teams").insert({
+                            password: request.payload.new_password
+                        });
+                        if (result.rowCount === 1){
+                            return{
+                                ok: true,
+                                msge: `Password changed successfully!'`
+                            };
+                        }
+
+                    }
+                }else return {
+                    ok: false,
+                    msge: "Does not work"
+                };
+
+
+
+
+            }
+        },
+
+        {
+            method: "GET",
+            path: "/api/teams",
+            config: {
+                description: "Retrieve all teams"
+            },
+            handler: async (request, h) => {
+                return knex("teams").select("email", "firstname", "lastname");
+            }
+        },
+        {
+            method: "GET",
+            path: "/{param*}",
+            config: {
+                description: "Production Application"
+            },
+            handler: {
+                directory: {
+                    path: ".",
+                    redirectToSlash: true,
+                    index: true
+                }
+            }
+        }
+    ]);
+
+    // Start the server.
+    await server.start();
+    server.logger().info(`Server running at ${server.info.uri}`);
+}
+
+process.on("unhandledRejection", err => {
+    server.logger().error(err);
+    process.exit(1);
+});
+
+// Go!
+init();
+
+
+
+
+
+
+
+
+
+/*
 Team = require('./Team');
 Member = require('./Member');
 
@@ -148,7 +311,7 @@ server.route([
                 return Boom.notFound(`Query returned ${rowsDeleted} rows`);
             }
         }
-    }*/
+    }
 ]);
 
 // Catch promises lacking a .catch.
@@ -183,3 +346,4 @@ async function init() {
 
 // Go!
 init();
+*/
