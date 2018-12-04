@@ -14,5 +14,5 @@ This sample code shows
 
 ## To use
 - See the output from the server listing routes
-- Use Postman to access endpoints related to `company`
+- Use Postman to access endpoints related to `Team`
 - View documentation for routes at http://localhost:3000/docs

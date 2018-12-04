@@ -7,7 +7,7 @@
         <v-footer class="pa-3">
             <v-layout justify-center class="font-weight-thin">
                 &copy; {{ new Date().getFullYear() }} Wry and Feckless Morale
-                Boosters, LLC&mdash;A Firegraph Company
+                Boosters, LLC&mdash;A Firegraph Team
             </v-layout>
         </v-footer>
     </v-app>
