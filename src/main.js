@@ -10,6 +10,7 @@ import "material-design-icons-iconfont/dist/material-design-icons.css";
 
 import Home from "./pages/Home.vue";
 import SignIn from "./pages/SignIn.vue";
+import CoreHours from "./pages/core-hours";
 
 
 
@@ -21,6 +22,7 @@ const router = new VueRouter({
     routes: [
         {name: "home-page", path: "/", component: Home},
         {name: "sign-in", path: "/sign-in", component: SignIn},
+        {name: "core-hours", path: "/core-hours", component: CoreHours},
 
     ]
 });

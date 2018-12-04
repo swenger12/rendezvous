@@ -13,6 +13,8 @@
 
 
         <v-btn flat v-bind:to="{ name: 'sign-in' }">Sign In</v-btn>
+
+        <v-btn flat v-bind:to="{name: 'core-hours' }">Core Hours</v-btn>
         <!--
         <v-btn flat v-bind:to="{name: 'reset-password' } ">Reset Password</v-btn>
 

@@ -65,8 +65,8 @@ async function init() {
 
                 if (resultSet.length > 0) {
                     return {
-                        ok: false,
-                        msge: `The team '${request.payload.email}' is already in use`
+                        ok: true,
+                        msge: `Welcome back '${request.payload.email}'`
                     };
                 }
 
@@ -77,6 +77,9 @@ async function init() {
                 });
 
                 if (result.rowCount === 1) {
+
+                    //first time sign in, add core hours
+
                     return {
                         ok: true,
                         msge: `Signed in '${request.payload.email}'`
