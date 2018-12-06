@@ -108,6 +108,7 @@ async function init() {
                             .required(),
                         startdatetime: Joi.string().required(),
                         enddatetime: Joi.string().required(),
+                        day: Joi.string().required(),
                         /*mondayStartTime: Joi.string().required(),
                         mondayEndTime: Joi.string().required(),
                         tuesdayStartTime: Joi.string().required(),
@@ -131,13 +132,18 @@ async function init() {
                     .select()
                     .where("email", request.payload.email);
 */
+
                 let result = await knex("corehours").insert({
 
                     email: request.payload.email,
                     startdatetime: request.payload.startdatetime,
                     enddatetime: request.payload.enddatetime,
-                    day: "monday",
+                    day: request.payload.day,
                 });
+                return{
+                    ok: true,
+                    //msge: `Added Core Hour'`
+                };
             }
         },
 
