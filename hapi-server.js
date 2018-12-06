@@ -94,6 +94,53 @@ async function init() {
                 }
             }
         },
+
+        {
+
+            method: "POST",
+            path: "/api/core-hours",
+            config: {
+                description: "Set core hours",
+                validate: {
+                    payload:{
+                        email: Joi.string()
+                            .email()
+                            .required(),
+                        startdatetime: Joi.string().required(),
+                        enddatetime: Joi.string().required(),
+                        /*mondayStartTime: Joi.string().required(),
+                        mondayEndTime: Joi.string().required(),
+                        tuesdayStartTime: Joi.string().required(),
+                        tuesdayEndTime: Joi.string().required(),
+                        wednesdayStartTime: Joi.string().required(),
+                        wednesdayEndTime: Joi.string().required(),
+                        thursdayStartTime: Joi.string().required(),
+                        thursdayEndTime: Joi.string().required(),
+                        fridayStartTime: Joi.string().required(),
+                        fridayEndTime: Joi.string().required(),
+                        saturdayStartTime: Joi.string().required(),
+                        saturdayEndTime: Joi.string().required(),
+                        sundayStartTime: Joi.string().required(),
+                        sundayEndTime: Joi.string().required(),*/
+                    }
+                }
+            },
+            handler: async (request, h) => {
+
+                /*let resultSet = await knex("corehours")
+                    .select()
+                    .where("email", request.payload.email);
+*/
+                let result = await knex("corehours").insert({
+
+                    email: request.payload.email,
+                    startdatetime: request.payload.startdatetime,
+                    enddatetime: request.payload.enddatetime,
+                    day: "monday",
+                });
+            }
+        },
+
         {
             method: "POST",
             path: "/api/reset-password",

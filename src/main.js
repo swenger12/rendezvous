@@ -10,7 +10,7 @@ import "material-design-icons-iconfont/dist/material-design-icons.css";
 
 import Home from "./pages/Home.vue";
 import SignIn from "./pages/SignIn.vue";
-import CoreHours from "./pages/core-hours";
+import CoreHours from "./pages/core-hours.vue";
 
 
 

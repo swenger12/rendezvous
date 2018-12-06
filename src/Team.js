@@ -4,7 +4,7 @@ class Team extends Model {
     static get tableName(){
         return 'team';
     }
-    static get relatioMapping(){
+    static get relationMapping(){
         return{
             employees: {
                 relation: Model.HasManyRelation,
