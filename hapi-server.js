@@ -79,11 +79,11 @@ async function init() {
                 if (result.rowCount === 1) {
 
                     //first time sign in, add core hours
-
                     return {
                         ok: true,
                         msge: `Signed in '${request.payload.email}'`
                     };
+
                 } else {
                     return {
                         ok: false,
@@ -109,20 +109,6 @@ async function init() {
                         startdatetime: Joi.string().required(),
                         enddatetime: Joi.string().required(),
                         day: Joi.string().required(),
-                        /*mondayStartTime: Joi.string().required(),
-                        mondayEndTime: Joi.string().required(),
-                        tuesdayStartTime: Joi.string().required(),
-                        tuesdayEndTime: Joi.string().required(),
-                        wednesdayStartTime: Joi.string().required(),
-                        wednesdayEndTime: Joi.string().required(),
-                        thursdayStartTime: Joi.string().required(),
-                        thursdayEndTime: Joi.string().required(),
-                        fridayStartTime: Joi.string().required(),
-                        fridayEndTime: Joi.string().required(),
-                        saturdayStartTime: Joi.string().required(),
-                        saturdayEndTime: Joi.string().required(),
-                        sundayStartTime: Joi.string().required(),
-                        sundayEndTime: Joi.string().required(),*/
                     }
                 }
             },
@@ -189,10 +175,6 @@ async function init() {
                     ok: false,
                     msge: "Does not work"
                 };
-
-
-
-
             }
         },
 

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h4 class="display-1">Set Core Hours</h4>
+        <h4 class="display-1">Team Home Page</h4>
 
-        <instructions details="Put in the start times and stop times to show your availability for each day" />
+        <instructions details="Create, Join, or Remove Team" />
 
         <v-form v-model="valid">
 
@@ -74,7 +74,7 @@
 
 
     export default {
-        name: "CoreHoursPage",
+        name: "TeamPage",
         components:{
             Instructions
         },
@@ -109,7 +109,7 @@
         methods:{
             handleSubmit: function(){
                 axios
-                    .post("/api/core-hours", {
+                    .post("/api/Team", {
                         email: this.email,
                         startdatetime: this.startdatetime,
                         enddatetime: this.enddatetime,
