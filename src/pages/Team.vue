@@ -7,7 +7,7 @@
         <v-form v-model="valid">
 
             <v-text-field
-                    v-model="email"
+                    v-model="creatoremail"
                     v-bind:rules="rules.email"
                     error-count="10"
                     type="email"
@@ -16,27 +16,20 @@
             </v-text-field>
 
             <v-text-field
-                    v-model="day"
+                    v-model="teamname"
                     error-count="10"
-                    label="Day"
+                    label="Team Name"
                     required
             >
             </v-text-field>
 
             <v-text-field
-                    v-model="startdatetime"
+                    v-model="memberemail"
                     error-count="10"
-                    label="Start Time"
+                    label="New member email address"
             >
             </v-text-field>
 
-            <v-text-field
-                    v-model="enddatetime"
-                    error-count="10"
-                    label="End Time"
-                    required
-            >
-            </v-text-field>
 
 
             <v-btn v-bind:disabled="!valid" v-on:click="handleSubmit"
@@ -81,10 +74,10 @@
         data: function () {
             return{
                 valid: false,
-                email: "",
-                day: "",
-                startdatetime: "",
-                enddatetime: "",
+                creatoremail: "",
+                teamname: "",
+                memberemail: "",
+                //teamid: "",
 
                 dialogHeader: "<no dialogHeader>",
                 dialogText: "<no dialogText>",
@@ -109,22 +102,22 @@
         methods:{
             handleSubmit: function(){
                 axios
-                    .post("/api/Team", {
-                        email: this.email,
-                        startdatetime: this.startdatetime,
-                        enddatetime: this.enddatetime,
-                        day: this.day,
+                    .post("/api/team", {
+                        creatoremail: this.creatoremail,
+                        memberemail: this.memberemail,
+                        //teamid: this.teamid,
+                        teamname: this.teamname,
                     })
                     .then(result =>{
                         if(result.status === 200){
                             if (result.data.ok) {
-                                this.showDialog("Entered  Hours Successfully",);
+                                this.showDialog("Created Team Successfully",);
                             } else {
-                                this.showDialog("Dont enter  Hours");
+                                this.showDialog("Didn't Create Team");
                             }
                         }
                     })
-                    .catch(err => this.showDialog("Hours Never Came", err));
+                    .catch(err => this.showDialog("Team Never Created", err));
             },
 
             showDialog: function(header, text) {

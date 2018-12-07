@@ -134,6 +134,46 @@ async function init() {
         },
 
         {
+
+            method: "POST",
+            path: "/api/team",
+            config: {
+                description: "Create a Team",
+                validate: {
+                    payload:{
+                        creatoremail: Joi.string()
+                            .email()
+                            .required(),
+                        teamname: Joi.string().required(),
+                        //teamid: Joi.string().required(),
+                        memberemail: Joi.string().required(),
+                    }
+                }
+            },
+            handler: async (request, h) => {
+
+                /*let resultSet = await knex("corehours")
+                    .select()
+                    .where("email", request.payload.email);
+*/
+
+                let result = await knex("team").insert({
+
+                    creatoremail: request.payload.creatoremail,
+                    teamname: request.payload.teamname,
+                    //teamid: request.payload.teamid,
+                    memberemail: request.payload.memberemail,
+                });
+                return{
+                    ok: true,
+                    msge: `Created new Team`
+                };
+            }
+        },
+
+
+
+        {
             method: "POST",
             path: "/api/reset-password",
             config: {
